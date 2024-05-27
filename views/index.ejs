@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="lt">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="./css/style.css">
+        <link rel="icon" type="image/x-icon" href="./assets/icons/icon.png">
+        <title>Lietuvos Krepšinio komandos</title>
+    </head>
+    <body>
+        <div class="main">
+            <div class="background"></div>
+            <!--Phone-tablet-menu-->
+            <div class="phone-tablet-menu-icon"></div>
+            <div class="phone-tablet-cancel-icon"></div>
+            <div class="phone-tablet-menu-navbar phone-tablet-menu-hidden">
+                <div>
+                    <% allTeams.forEach((team) => {%>
+                        <div class="phone-tablet-menu-logos">
+                            <a href="/team/<%= team.id %>">
+                                <img src="./assets/teams/<%= team.teamName %>/logo.png"/>
+                                <h2><%= team.teamName %></h2>
+                            </a>
+                        </div>
+                    <%});%>
+                </div>
+            </div>
+            <h1>LIETUVOS KREPŠINIO KOMANDOS</h1>
+            <!--Teams Navigation bar selectors-->
+            <div class="teams-navbar">
+                <div class="navbar-container">
+                    <% allTeams.forEach((team) => {%>
+                        <div class="logos">
+                            <a href="/team/<%= team.id %>">
+                            <img src="./assets/teams/<%= team.teamName %>/logo.png" alt="<%= team.teamName %> logo"/>
+                            <div class="glow"></div>
+                            </a>
+                        </div>
+                    <%});%>
+                </div>
+            </div>
+            <!--Search person-->
+            <div class="search-container">
+                <h2>IEŠKOTI</h2>
+                <div class="search-icon"></div>
+                <select id="search-options" class="hidden">
+                    <option disabled selected hidden>Pagal</option>
+                    <option value="position">Poziciją</option>
+                    <option value="name-lastname">Vardą Pavardę</option>
+                </select>
+                <!--Search by position-->
+                <div id="search-position" class="hidden">
+                    <form action="/person" method="POST">
+                        <select name="position">
+                            <option selected hidden value="none">Pozicija</option>
+                            <option value="Įžaidėjas">Įžaidėjas</option>
+                            <option value="Atakuojantis gynėjas">Atakuojantis gynėjas</option>
+                            <option value="Lengvojo krašto puolėjas">Lengvojo krašto puolėjas</option>
+                            <option value="Sunkiojo krašto puolėjas">Sunkiojo krašto puolėjas</option>
+                            <option value="Vidurio Puolėjas">Vidurio puolėjas</option>
+                            <option value="Treneris">Treneris</option>
+                        </select>
+                        <input type="submit" value="IEŠKOTI"> 
+                    </form>
+                </div>
+                <!--Search by name-lastname-->
+                <div id="search-name-lastname" class="hidden">
+                    <form action="/person" method="POST">
+                        <div>
+                            <label>Vardas</label>
+                            <input type="text" name="name" maxlength="15">
+                        </div>
+                        <div>
+                            <label>Pavardė</label>
+                            <input type="text" name="lastname" maxlength="15">
+                        </div>
+                        <input type="submit" value="IEŠKOTI"> 
+                        <div id="user-input"></div>
+                     </form>
+                </div>
+            </div>
+            <%if(locals.team){%>
+            <!--Team Name-->
+            <div class="team-namebar">
+                    <img src="./assets/teams/<%= team.teamName %>/logo.png" alt="<%= team.teamName %> logo"/>
+                    <h2><%= team.teamName %></h2>
+            </div>
+            <h2>STARTINIS PEKETAS:</h2>
+            <!--Starters-->
+            <div class="starters-container">
+                <% team.starting.forEach((starter) => {%>
+                    <div class="player-card">
+                        <div class="player-picture"><img src="./assets/teams/<%= team.teamName %>/<%= starter.name%>_<%= starter.lastname %>.png" alt="<%= starter.name %> <%= starter.lastname %>"/></div>
+                        <div class="player-info"><span>Vardas: </span><%= starter.name %> <%= starter.lastname %></div>
+                        <div class="player-info player-position"><span>Pozicija: </span><%= starter.position %></div>
+                        <div class="player-info"><span>Amžius: </span><%= starter.age %></div>
+                        <div class="player-info"><span>Ūgis: </span><%= starter.height %></div>
+                        <div class="player-info"><span>Svoris: </span><%= starter.weight %></div>
+                    </div>
+                <%});%>
+            </div>
+            <!--Coach-Bench wrap-->
+            <div class="coach-bench-wrap">
+                <!--Coach-->
+                <div>
+                    <h2>TRENERIS:</h2>
+                    <div class="starters-container">
+                        <% team.coach.forEach((coach) => {%>
+                            <div class="player-card">
+                                <div class="player-picture"><img src="./assets/teams/<%= team.teamName %>/<%= coach.name %>_<%= coach.lastname %>.png" alt="<%= coach.name %> <%= coach.lastname %>" /></div>
+                                <div class="player-info"><span>Vardas: </span><%= coach.name %> <%= coach.lastname %></div>
+                            </div>
+                        <%});%>
+                    </div>
+                </div>
+                <!--Bench-->
+                <div>
+                    <h2>ATSARGINIŲ ŽAIDĖJŲ SUOLELIS:</h2>
+                    <div class="starters-container">
+                        <ul>
+                            <% team.bench.forEach((player) => {%>
+                                <li><span><%= player.name %> <%= player.lastname %></span>, <%= player.position %></li>
+                            <%});%>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <%}%>
+            <!--Search specific person-->
+            <%if(locals.search){%>
+                <h2>IEŠKOMA: <%= search %></h2>
+            <%}%>
+            <%if(locals.player) {%>
+                <div class="specific-person-container">
+                    <ul>
+                        <% player.forEach((player) => {%>
+                            <li>
+                                <div class="person-wrapper">
+                                <img class="person-background" src="./assets/teams/<%= player.club %>/logo.png" alt="<%= player.club %> logo"/>
+                                <img class="person-picture" src="./assets/teams/<%= player.club %>/<%= player.name %>_<%= player.lastname %>.png" alt="<%= player.name %> <%= player.lastname %>"/>
+                                </div>
+                                <span><%= player.name %> <%= player.lastname%></span><%= player.position %>
+                            </li>
+                        <%});%>
+                    </ul>
+                </div>
+            <%}%>
+            <%if(locals.error){%>
+            <!--Show errors-->
+            <div class="error-container"><%= error %></div>
+            <%}%>
+        </div>
+        <!--Footer-->
+        <div class="footer"><%= new Date().getFullYear() %> © Antanas Jasiulionis</div>
+    <script src="./js/animations.js"></script>
+    </body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "ltu_basketball_teams_list",
+  "version": "1.0.0",
+  "description": "List of Lithuania basketball teams",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Antanas",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.6.8",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2"
+  }
+}
