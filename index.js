@@ -12,6 +12,14 @@ let errorMessage;
 app.use(express.urlencoded({extended: true}));
 app.use(express.static("public"));
 
+/*Set to clear cache after 15 minutes*/
+setInterval(() => { 
+    teamData = null;
+    playerData = null;
+    userInput = null;
+    errorMessage = null;
+  }, (1000 * 60 * 15)); 
+
 app.get("/", async (req, res) => {
     try {
         const teamsData = await axios.get(API_URL + "/all");
