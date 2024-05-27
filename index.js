@@ -82,6 +82,14 @@ app.post("/person", async (req, res) => {
     }
 });
 
+app.all("*", (req,res) => {
+    teamData = null;
+    playerData = null;
+    userInput = null;
+    errorMessage = "Dėja, tokio puslapio nėra.";
+    res.status(404).redirect("/");
+});
+
 app.listen(port, () => {
     console.log(`Webapp is running on port ${port}`);
 });
